@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Completa de CRUDs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1a73e8;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        section {
+            padding: 20px;
+            margin: 10px auto;
+            max-width: 900px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #1a73e8;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        .tip {
+            background-color: #fffae6;
+            border-left: 5px solid #f7c948;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .error {
+            background-color: #ffe6e6;
+            border-left: 5px solid #f44336;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía Completa de CRUDs</h1>
+        <p>Todo lo que debes saber sobre CRUDs y errores comunes</p>
+    </header>
+
+<section>
+    <h2>1. Cómo usar Session en Flask</h2>
+    <p>Las sessions permiten guardar datos temporales del usuario:</p>
+    <pre>
+from flask import Flask, session, redirect, url_for, request
+
+app = Flask(__name__)
+app.secret_key = 'clave_super_segura'
+
+@app.route('/login', methods=['POST'])
+def login():
+    usuario = request.form['usuario']
+    session['usuario'] = usuario
+    return redirect(url_for('home'))
+
+@app.route('/home')
+def home():
+    if 'usuario' in session:
+        return f"Hola {session['usuario']}"
+    else:
+        return "No estás logueado"
+    </pre>
+    <div class="tip">Tip: session se guarda en el servidor y expira cuando cierras el navegador o se destruye manualmente.</div>
+</section>
+
+<section>
+    <h2>2. Cómo usar Flask-Login</h2>
+    <p>Flask-Login ayuda a manejar autenticación de usuarios fácilmente:</p>
+    <pre>
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+class Usuario(UserMixin):
+    pass
+
+@app.route('/login', methods=['POST'])
+def login():
+    user = Usuario()
+    user.id = request.form['id']
+    login_user(user)
+    return "Usuario logueado"
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return "Panel protegido"
+    </pre>
+</section>
+
+<section>
+    <h2>3. Cómo usar Swal (SweetAlert)</h2>
+    <p>Swal permite mostrar alertas bonitas y dinámicas en JS:</p>
+    <pre>
+&lt;script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+Swal.fire({
+  title: 'Éxito!',
+  text: 'Registro creado correctamente',
+  icon: 'success',
+  confirmButtonText: 'Aceptar'
+});
+&lt;/script&gt;
+    </pre>
+</section>
+
+<section>
+    <h2>4. Herramientas utilizadas</h2>
+    <ul>
+        <li><strong>Iconify:</strong> Biblioteca de iconos SVG para tus páginas.</li>
+        <li><strong>UIColors:</strong> Herramienta para generar paletas de colores estéticas y consistentes.</li>
+        <li>Tip: Estas herramientas ayudan a mejorar la interfaz sin mucho esfuerzo.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>5. Cómo manejar cookies</h2>
+    <p>Las cookies permiten almacenar información en el navegador del usuario:</p>
+    <pre>
+from flask import make_response, request
+
+@app.route('/set_cookie')
+def set_cookie():
+    resp = make_response("Cookie creada")
+    resp.set_cookie('usuario', 'cristhian', max_age=3600) # 1 hora
+    return resp
+
+@app.route('/get_cookie')
+def get_cookie():
+    usuario = request.cookies.get('usuario')
+    return f'Usuario en cookie: {usuario}'
+    </pre>
+    <div class="tip">Tip: No guardes información sensible en cookies sin encriptación.</div>
+</section>
+<section>
+    <h2>6. Cookies con Session y eliminación al cerrar sesión</h2>
+    <p>Podemos combinar session y cookies para manejar la autenticación y eliminar la cookie al cerrar sesión:</p>
+    <pre>
+from flask import Flask, session, redirect, url_for, request, make_response
+
+app = Flask(__name__)
+app.secret_key = 'clave_super_segura'
+
+@app.route('/login', methods=['POST'])
+def login():
+    usuario = request.form['usuario']
+    session['usuario'] = usuario
+    resp = make_response(redirect(url_for('home')))
+    resp.set_cookie('usuario', usuario, max_age=3600) # cookie por 1 hora
+    return resp
+
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)  # elimina session
+    resp = make_response("Sesión cerrada")
+    resp.set_cookie('usuario', '', expires=0)  # elimina cookie
+    return resp
+    </pre>
+    <div class="tip">
+        Tip: Siempre limpia la session y la cookie al cerrar sesión para mayor seguridad.
+    </div>
+</section>
+
+<section>
+    <h2>7. Otros tipos de Swal (SweetAlert2)</h2>
+    <p>Swal permite varios tipos de alertas interactivas:</p>
+    <pre>
+&lt;script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+// Confirmación
+Swal.fire({
+  title: '¿Estás seguro?',
+  text: "¡No podrás revertir esto!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Sí, eliminar'
+});
+
+// Input de texto
+Swal.fire({
+  title: 'Ingresa tu nombre',
+  input: 'text',
+  inputLabel: 'Tu nombre',
+  showCancelButton: true
+});
+
+// Mensaje de éxito
+Swal.fire('¡Hecho!', 'Registro guardado correctamente', 'success');
+
+// Mensaje de error
+Swal.fire('Error', 'Algo salió mal', 'error');
+&lt;/script&gt;
+    </pre>
+</section>
+
+<section>
+    <h2>8. Cómo usar GitHub</h2>
+    <p>GitHub es una plataforma para versionar y compartir tu código:</p>
+    <ul>
+        <li><strong>Crear un repositorio:</strong> Desde github.com → "New repository".</li>
+        <li><strong>Clonar un repositorio:</strong>
+            <pre>git clone https://github.com/usuario/repo.git</pre>
+        </li>
+        <li><strong>Agregar cambios:</strong>
+            <pre>
+git add .
+git commit -m "Mensaje descriptivo"
+git push origin main
+            </pre>
+        </li>
+        <li><strong>Actualizar repositorio:</strong>
+            <pre>git pull origin main</pre>
+        </li>
+        <li><strong>Tip:</strong> Usa ramas (branches) para probar cambios y evitar romper tu código principal.</li>
+    </ul>
+</section>
+
+    <section>
+    <h2>8. Códigos de Respuesta HTTP</h2>
+    <p>Cuando tu backend responde a un request, devuelve un código de estado:</p>
+    <ul>
+        <li><strong>200 OK:</strong> La solicitud fue exitosa.</li>
+        <li><strong>201 Created:</strong> Recurso creado correctamente.</li>
+        <li><strong>204 No Content:</strong> Solicitud exitosa pero sin contenido para devolver.</li>
+        <li><strong>400 Bad Request:</strong> Solicitud inválida o mal formada.</li>
+        <li><strong>401 Unauthorized:</strong> Falta autenticación o token inválido.</li>
+        <li><strong>403 Forbidden:</strong> Usuario no tiene permisos.</li>
+        <li><strong>404 Not Found:</strong> Recurso no encontrado.</li>
+        <li><strong>500 Internal Server Error:</strong> Error en el servidor.</li>
+    </ul>
+    <div class="tip">
+        Tip: Siempre maneja los errores del backend y devuelve el código correcto para facilitar debugging.
+    </div>
+</section>
+<section>
+    <h2>9.1 Swagger - GET</h2>
+    <p>Endpoint para obtener todos los items:</p>
+    <pre>
+get:
+  summary: Obtener todos los items
+  responses:
+    '200':
+      description: Lista de items
+    '404':
+      description: No se encontraron items
+    </pre>
+</section>
+
+<section>
+    <h2>9.2 Swagger - POST</h2>
+    <p>Endpoint para crear un nuevo item:</p>
+    <pre>
+post:
+  summary: Crear un nuevo item
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+  responses:
+    '201':
+      description: Item creado
+    '400':
+      description: Solicitud inválida
+    </pre>
+</section>
+
+<section>
+    <h2>9.3 Swagger - PUT</h2>
+    <p>Endpoint para actualizar un item existente:</p>
+    <pre>
+put:
+  summary: Actualizar un item
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+  responses:
+    '200':
+      description: Item actualizado
+    '400':
+      description: Solicitud inválida
+    '404':
+      description: Item no encontrado
+    </pre>
+</section>
+
+<section>
+    <h2>9.4 Swagger - DELETE</h2>
+    <p>Endpoint para eliminar un item:</p>
+    <pre>
+delete:
+  summary: Eliminar un item
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Item eliminado
+    '404':
+      description: Item no encontrado
+    </pre>
+</section>
+
+<section>
+    <h2>10. Cómo insertar imágenes en un CRUD con Flask, MySQL y JS Vanilla</h2>
+    <p>Para agregar imágenes a tu CRUD, la forma más común y eficiente es:</p>
+    <ul>
+        <li>Guardar el archivo de la imagen en una carpeta del servidor (<code>static/uploads</code>).</li>
+        <li>Guardar en la base de datos solo la ruta de la imagen, no la imagen completa.</li>
+    </ul>
+
+    <h3>1️⃣ Configuración en MySQL Workbench</h3>
+    <p>Crea la tabla para almacenar los items:</p>
+    <pre>
+CREATE TABLE items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    imagen VARCHAR(255) NOT NULL
+);
+    </pre>
+
+    <h3>2️⃣ Backend en Flask</h3>
+    <p>Ejemplo de cómo recibir la imagen y guardar la ruta en MySQL:</p>
+    <pre>
+from flask import Flask, request, jsonify
+import mysql.connector
+import os
+
+app = Flask(__name__)
+UPLOAD_FOLDER = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="tu_contraseña",
+        database="crud_db"
+    )
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    nombre = request.form['nombre']
+    file = request.files['imagen']
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(filepath)
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO items (nombre, imagen) VALUES (%s, %s)", (nombre, filepath))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({"mensaje": f'Item "{nombre}" guardado con imagen'})
+    </pre>
+
+    <h3>3️⃣ Frontend en HTML y JS Vanilla</h3>
+    <p>Formulario para subir la imagen y mostrar todos los items:</p>
+    <pre>
+&lt;form id="form-upload" enctype="multipart/form-data"&gt;
+    &lt;input type="text" name="nombre" placeholder="Nombre del item" required&gt;
+    &lt;input type="file" name="imagen" accept="image/*" required&gt;
+    &lt;button type="submit"&gt;Subir&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;div id="items"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+const form = document.getElementById('form-upload');
+const itemsDiv = document.getElementById('items');
+
+form.addEventListener('submit', async e =&gt; {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const res = await fetch('/upload', { method: 'POST', body: formData });
+    const data = await res.json();
+    alert(data.mensaje);
+    form.reset();
+    loadItems();
+});
+
+async function loadItems() {
+    const res = await fetch('/items');
+    const items = await res.json();
+    itemsDiv.innerHTML = '';
+    items.forEach(item =&gt; {
+        itemsDiv.innerHTML += `
+            &lt;div&gt;
+                &lt;h4&gt;${item.nombre}&lt;/h4&gt;
+                &lt;img src="${item.imagen}" width="200" alt="${item.nombre}"&gt;
+            &lt;/div&gt;
+        `;
+    });
+}
+
+loadItems();
+&lt;/script&gt;
+    </pre>
+
+    <h3>4️⃣ Flujo del CRUD con imágenes</h3>
+    <ol>
+        <li>El usuario completa el formulario con nombre y selecciona la imagen.</li>
+        <li>Flask guarda la imagen en <code>static/uploads</code> y la ruta en MySQL.</li>
+        <li>JS Vanilla obtiene todos los items y genera etiquetas <code>&lt;img&gt;</code> con la ruta guardada.</li>
+    </ol>
+
+    <div class="tip">
+        Tip: Guardar solo la ruta de la imagen en la base de datos es más eficiente que guardar el archivo completo (BLOB). 
+        Además, así tu aplicación puede servir imágenes rápidamente desde la carpeta <code>static</code>.
+    </div>
+</section>
+<section>
+    <h2>11. Funciones y comandos útiles en bases de datos (MySQL)</h2>
+    
+    <h3>1️⃣ Funciones de control de transacciones</h3>
+    <ul>
+        <li><code>START TRANSACTION;</code> - Inicia una transacción.</li>
+        <li><code>COMMIT;</code> - Guarda todos los cambios realizados dentro de la transacción.</li>
+        <li><code>ROLLBACK;</code> - Revierte todos los cambios realizados dentro de la transacción.</li>
+        <li><code>SAVEPOINT nombre;</code> - Crea un punto intermedio en la transacción para poder hacer rollback parcial.</li>
+        <li><code>ROLLBACK TO SAVEPOINT nombre;</code> - Revierte la transacción hasta un savepoint específico.</li>
+    </ul>
+
+    <h3>2️⃣ Funciones para obtener valores automáticos</h3>
+    <ul>
+        <li><code>LAST_INSERT_ID();</code> - Devuelve el último ID autoincrement generado.</li>
+        <li><code>AUTO_INCREMENT</code> - Se usa en la definición de la tabla para generar IDs automáticamente.</li>
+    </ul>
+
+    <h3>3️⃣ Funciones de fecha y hora</h3>
+    <ul>
+        <li><code>NOW();</code> - Fecha y hora actual.</li>
+        <li><code>CURDATE();</code> - Fecha actual (solo yyyy-mm-dd).</li>
+        <li><code>CURTIME();</code> - Hora actual (solo hh:mm:ss).</li>
+        <li><code>DATE_ADD(fecha, INTERVAL n DAY);</code> - Suma días a una fecha.</li>
+        <li><code>DATE_SUB(fecha, INTERVAL n DAY);</code> - Resta días a una fecha.</li>
+    </ul>
+
+    <h3>4️⃣ Funciones matemáticas</h3>
+    <ul>
+        <li><code>ABS(valor);</code> - Valor absoluto.</li>
+        <li><code>ROUND(valor, decimales);</code> - Redondea.</li>
+        <li><code>CEIL(valor);</code> - Redondea hacia arriba.</li>
+        <li><code>FLOOR(valor);</code> - Redondea hacia abajo.</li>
+        <li><code>RAND();</code> - Número aleatorio entre 0 y 1.</li>
+    </ul>
+
+    <h3>5️⃣ Funciones de cadenas (strings)</h3>
+    <ul>
+        <li><code>CONCAT(str1, str2);</code> - Une cadenas.</li>
+        <li><code>UPPER(str);</code> - Convierte a mayúsculas.</li>
+        <li><code>LOWER(str);</code> - Convierte a minúsculas.</li>
+        <li><code>SUBSTRING(str, inicio, longitud);</code> - Extrae parte de la cadena.</li>
+        <li><code>LENGTH(str);</code> - Longitud de la cadena.</li>
+        <li><code>TRIM(str);</code> - Elimina espacios al inicio y fin.</li>
+    </ul>
+
+    <h3>6️⃣ Funciones de agregación</h3>
+    <ul>
+        <li><code>COUNT(columna);</code> - Cuenta filas.</li>
+        <li><code>SUM(columna);</code> - Suma valores.</li>
+        <li><code>AVG(columna);</code> - Promedio de valores.</li>
+        <li><code>MIN(columna);</code> - Valor mínimo.</li>
+        <li><code>MAX(columna);</code> - Valor máximo.</li>
+    </ul>
+
+    <h3>7️⃣ Funciones de control de flujo y condicionales</h3>
+    <ul>
+        <li><code>IF(condición, valor_si_true, valor_si_false);</code> - Condicional simple.</li>
+        <li><code>CASE WHEN condición THEN valor ELSE otro_valor END</code> - Condicional más compleja.</li>
+        <li><code>COALESCE(valor1, valor2,...);</code> - Devuelve el primer valor no nulo.</li>
+    </ul>
+
+    <h3>8️⃣ Funciones para trabajar con NULL</h3>
+    <ul>
+        <li><code>ISNULL(columna);</code> - Comprueba si es NULL.</li>
+        <li><code>IFNULL(columna, valor);</code> - Si es NULL devuelve otro valor.</li>
+    </ul>
+
+    <h3>9️⃣ Otros comandos útiles</h3>
+    <ul>
+        <li><code>DESCRIBE tabla;</code> - Muestra la estructura de una tabla.</li>
+        <li><code>SHOW TABLES;</code> - Lista todas las tablas de la base de datos.</li>
+        <li><code>SHOW DATABASES;</code> - Lista todas las bases de datos.</li>
+        <li><code>EXPLAIN SELECT ...;</code> - Muestra cómo MySQL ejecuta una consulta (útil para optimización).</li>
+        <li><code>USE nombre_db;</code> - Selecciona la base de datos actual.</li>
+    </ul>
+
+    <div class="tip">
+        Tip: Las funciones de transacciones (<code>START TRANSACTION</code>, <code>COMMIT</code>, <code>ROLLBACK</code>) son muy importantes al hacer operaciones críticas de CRUD, para asegurar la integridad de tus datos.
+    </div>
+</section>
+<section>
+    <h2>12. Cómo usar transacciones en bases de datos</h2>
+    <p>Las <strong>transacciones</strong> permiten agrupar varias operaciones de la base de datos para que se ejecuten como una sola unidad. Esto garantiza que si algo falla, no se afecten los datos y se pueda <strong>revertir</strong> todo.</p>
+
+    <h3>1️⃣ Comandos básicos de transacción en MySQL</h3>
+    <ul>
+        <li><code>START TRANSACTION;</code> → Inicia una nueva transacción.</li>
+        <li><code>COMMIT;</code> → Confirma todos los cambios realizados dentro de la transacción.</li>
+        <li><code>ROLLBACK;</code> → Revierte todos los cambios realizados dentro de la transacción.</li>
+        <li><code>SAVEPOINT nombre;</code> → Crea un punto de control dentro de la transacción.</li>
+        <li><code>ROLLBACK TO SAVEPOINT nombre;</code> → Revierte solo hasta ese punto de control.</li>
+    </ul>
+
+    <h3>2️⃣ Ejemplo en MySQL</h3>
+    <pre>
+-- Iniciar transacción
+START TRANSACTION;
+
+-- Operaciones de ejemplo
+INSERT INTO cuentas (usuario, saldo) VALUES ('Cristhian', 1000);
+UPDATE cuentas SET saldo = saldo - 200 WHERE usuario = 'Cristhian';
+
+-- Si todo está bien, guardar cambios
+COMMIT;
+
+-- Si hay un error, revertir
+ROLLBACK;
+    </pre>
+
+    <h3>3️⃣ Ejemplo usando Flask y MySQL</h3>
+    <p>En Python/Flask puedes usar <code>connection.commit()</code> y <code>connection.rollback()</code>:</p>
+    <pre>
+from flask import Flask, request
+import mysql.connector
+
+app = Flask(__name__)
+
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="tu_contraseña",
+        database="crud_db"
+    )
+
+@app.route('/transferir', methods=['POST'])
+def transferir():
+    from_usuario = request.form['from']
+    to_usuario = request.form['to']
+    monto = float(request.form['monto'])
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        conn.start_transaction()  # Inicia transacción
+        cursor.execute("UPDATE cuentas SET saldo = saldo - %s WHERE usuario = %s", (monto, from_usuario))
+        cursor.execute("UPDATE cuentas SET saldo = saldo + %s WHERE usuario = %s", (monto, to_usuario))
+        conn.commit()  # Guardar cambios si todo salió bien
+        mensaje = "Transferencia exitosa"
+    except Exception as e:
+        conn.rollback()  # Revertir cambios si ocurre un error
+        mensaje = f"Error: {e}"
+    finally:
+        cursor.close()
+        conn.close()
+    
+    return mensaje
+    </pre>
+
+    <h3>4️⃣ Tip práctico</h3>
+    <ul>
+        <li>Usa transacciones cuando hagas múltiples operaciones que dependan unas de otras, como transferencias, compras, registros relacionados, etc.</li>
+        <li>Si una operación falla, puedes revertir todo con <code>ROLLBACK</code> para mantener la integridad de los datos.</li>
+        <li>Puedes usar <code>SAVEPOINT</code> para puntos intermedios si solo quieres revertir parte de la transacción.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>7.1 Cómo ejecutar acciones al hacer clic en un botón de Swal</h2>
+    <p>Puedes hacer que un botón de SweetAlert ejecute una acción cuando el usuario confirme o cancele:</p>
+
+    <pre>
+&lt;!-- Botón que dispara SweetAlert --&gt;
+&lt;button id="btn-alert"&gt;Haz clic aquí&lt;/button&gt;
+
+&lt;!-- Incluir SweetAlert2 --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+const btn = document.getElementById('btn-alert');
+
+btn.addEventListener('click', () =&gt; {
+    Swal.fire({
+        title: '¡Alerta!',
+        text: 'Se ejecutará una acción ahora',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, ejecutar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) =&gt; {
+        if (result.isConfirmed) {
+            // Aquí va lo que quieres que haga
+            console.log('El usuario confirmó la acción!');
+            Swal.fire('Hecho!', 'La acción se ejecutó correctamente', 'success');
+        } else {
+            console.log('El usuario canceló la acción');
+        }
+    });
+});
+&lt;/script&gt;
+    </pre>
+
+    <div class="tip">
+        Tip: Puedes reemplazar <code>console.log</code> por cualquier acción real, como borrar un registro del CRUD, actualizar datos o enviar un formulario.
+    </div>
+</section>
+
+</body>
+</html>

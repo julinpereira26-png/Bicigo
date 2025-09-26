@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - BiciGO</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="body_principal">
+    <nav class="sidebar">
+        <h2 class="logo">BiciGo</h2>
+        <ul>
+            <li><a href="principal.html">Inicio</a></li>
+            <li><a href="bicicletas.html">Bicicletas</a></li>
+            <li><a href="eventos.html" class="active">Eventos</a></li>
+            <li><a href="configuracion.html">Panel de control</a></li>
+        </ul>
+    </nav>
+    <header class="header">
+    <h1>Eventos Disponibles</h1>
+    <a href="agregar_evento.html"><button class="btn">crear</button></a>
+    </header>
+
+    <main>
+        <div class="eventos-grid" id="eventos-contenido">
+        </div>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        mostrareventos();
+    </script>
+</body>
+</html>

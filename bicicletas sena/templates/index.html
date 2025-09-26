@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body class="body_inicio">
+    <section class="descripcion">
+        <h1>BiciGO:</h1>
+        <h3>Pedalea, Descubre y Disfruta</h3>
+        <p>BiciGo es tu plataforma para alquilar bicicletas de manera fácil y segura, explorar nuevas rutas y participar en ciclopaseos y eventos de movilidad urbana. Controla la disponibilidad de bicicletas, calcula tarifas con descuentos según tu estrato socioeconómico y disfruta de una experiencia activa, saludable y sostenible.</p>
+    </section>
+    <section class="login">
+        <form onsubmit="event.preventDefault(); validar()" class="formulario">
+            <h1>iniciar sesión</h1>
+            <label>usuario</label>
+            <input id="correo" type="text" required placeholder="Digite su usuario">
+            <label>contraseña</label>
+            <input id="password" type="password" required placeholder="Digite su contraseña">
+            <button type="submit">enviar</button>
+            <p>¿no tienes cuenta?<a href="registrar.html">registrate aqui</a></p>
+        </form>
+    </section>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

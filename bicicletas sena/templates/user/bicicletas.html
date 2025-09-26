@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiciGo - Dashboard</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="body_principal">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <h2 class="logo">BiciGo</h2>
+    <ul>
+      <li><a href="principal.html">Inicio</a></li>
+      <li><a href="bicicletas.html" class="active">Bicicletas</a></li>
+      <li><a href="eventos.html">Eventos</a></li>
+      <li><a href="configuracion.html">Panel de control</a></li>
+    </ul>
+  </nav>
+
+  <!-- Encabezado -->
+  <header class="header">
+    <h1>Panel de Bicicletas</h1>
+    <a href="crear.html"><button class="btn">crear</button></a>
+  </header>
+
+  <!-- Contenido Principal -->
+  <main class="main_bicicletas">
+    <div class="card">
+      <h2>Listado de Bicicletas</h2>
+      <table class="tabla_bicicletas">
+        <thead>
+          <tr>                        
+            <th>ID</th>
+            <th>Marca</th>
+            <th>Color</th>
+            <th>Estado</th>
+            <th>Precio</th>
+            <th>eliminar</th>
+            <th>modificar</th>
+          </tr>
+        </thead>
+        <tbody id="contenido">
+
+        </tbody>
+      </table>
+    </div>
+  </main>
+<script src="/static/js/app.js"></script>
+<script>
+bicicletas()
+</script>
+</body>
+</html>

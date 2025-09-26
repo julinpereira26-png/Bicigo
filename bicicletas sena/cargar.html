@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bicicletas</title>
+  <style>
+    /* Pantalla de carga */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid #ccc;
+      border-top: 6px solid red;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Contenedor de las bicicletas */
+    #contenido {
+      display: none;
+      padding: 20px;
+    }
+
+    .bicicleta {
+      background: #f1f1f1;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de carga -->
+  <div id="loading-screen">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div id="contenido">
+    <h1>Lista de bicicletas</h1>
+    <div id="lista-bicicletas"></div>
+  </div>
+
+  <script>
+    async function cargarBicicletas() {
+      const loader = document.getElementById("loading-screen");
+      const contenido = document.getElementById("contenido");
+      const lista = document.getElementById("lista-bicicletas");
+
+      try {
+        // Mostrar pantalla de carga
+        loader.style.display = "flex";
+
+        // Llamar a la API de Flask
+        const res = await fetch("http://127.0.0.1:5000/bicicleta");
+        const data = await res.json();
+
+        // Llenar el contenido
+        lista.innerHTML = "";
+        data.forEach(bici => {
+          const div = document.createElement("div");
+          div.classList.add("bicicleta");
+          div.innerHTML = `<strong>${bici.marca}</strong> - ${bici.color} - $${bici.precio_alquiler}`;
+          lista.appendChild(div);
+        });
+
+      } catch (error) {
+        lista.innerHTML = "<p>Error cargando bicicletas 😢</p>";
+        console.error(error);
+      } finally {
+        // Ocultar loading y mostrar contenido real
+        loader.style.display = "none";
+        contenido.style.display = "block";
+      }
+    }
+
+    // Cargar bicicletas al entrar en la página
+    window.onload = cargarBicicletas;
+  </script>
+
+</body>
+</html>

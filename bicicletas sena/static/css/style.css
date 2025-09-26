@@ -1,0 +1,646 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body.body_principal {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 70px 1fr;
+  height: 100vh ;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9fafc;
+  color: #333;
+  overflow: hidden ;
+}
+
+/* Sidebar */
+.sidebar {
+  grid-row: 1 / 3;
+  background: #1e3a8a;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .logo {
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin: 5px 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  padding: 10px 15px;
+  display: block;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background: #3b82f6;
+}
+
+/* Encabezado */
+.header {
+  grid-column: 2 / 3;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.header h1 {
+  font-size: 20px;
+}
+
+.btn-sesion {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-sesion:hover {
+  background: #dc2626;
+}
+
+/* Main */
+.main_bicicletas {
+  grid-column: 2 / 3;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Card */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* Tabla */
+.tabla_bicicletas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla_bicicletas th,
+.tabla_bicicletas td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.tabla_bicicletas th {
+  background: #f1f5f9;
+}
+
+.tabla_bicicletas tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* Botones de acciones */
+.btn-alquilar {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-alquilar:hover {
+  background: #1d4ed8;
+}
+
+.btn-disabled {
+  background: #9ca3af;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: not-allowed;
+}
+
+/* principal */
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Layout */
+.body_principal {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 60px 1fr;
+  height: 100vh;
+  color: #333;
+}
+
+/* Sidebar */
+.sidebar {
+  grid-row: 1 / 3;
+  grid-column: 1 / 2;
+  background: #0d47a1;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #cfd8dc;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background: #1565c0;
+  color: white;
+}
+
+/* Topbar */
+.topbar {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  background: #e3f2fd;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Main */
+.main_principal {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.contenido {
+  max-width: 700px;
+  text-align: center;
+}
+
+.contenido h1 {
+  font-size: 2.5rem;
+  color: #0d47a1;
+  margin-bottom: 15px;
+}
+
+.contenido h3 {
+  font-size: 1.3rem;
+  color: #1565c0;
+  margin-bottom: 20px;
+}
+
+.contenido p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+/* Botón */
+.btn {
+  padding: 12px 25px;
+  font-size: 1rem;
+  background: #0d47a1;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #1565c0;
+}
+
+
+/* ------------------------------------------------inicio de sesion */
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body.body_inicio {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 100%;
+  height: 100vh !important;
+  background: #f9fafc;
+  overflow: hidden ;
+}
+
+
+/* Descripción */
+.descripcion {
+  background: linear-gradient(135deg, #0d47a1, #1565c0);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+}
+
+.descripcion h1 {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+}
+
+.descripcion h3 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+.descripcion p {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+/* Login */
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.formulario {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.formulario h1 {
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #0d47a1;
+}
+
+/* Inputs */
+.formulario label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+.formulario input:focus {
+  border-color: #1565c0;
+  box-shadow: 0 0 4px rgba(21, 101, 192, 0.5);
+}
+
+/* Botón */
+.formulario button {
+  width: 100%;
+  padding: 12px;
+  background: #0d47a1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.formulario button:hover {
+  background: #1565c0;
+}
+
+/* Registro */
+.formulario p {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.formulario p a {
+  color: #0d47a1;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.formulario p a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------- registrate */
+/* Registro (igual estructura pero invertida) */
+.body_registro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  background: #f9fafc;
+}
+
+.registro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  order: 1; /* formulario a la izquierda */
+}
+
+.body_registro .descripcion {
+  background: linear-gradient(135deg, #0d47a1, #1565c0);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+  order: 2; /* descripción a la derecha */
+}
+
+
+
+/* ----------------------------------------eventos */
+
+.crear-bicicleta {
+    max-width: 400px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+}
+
+.crear-bicicleta h2 {
+    color: #1e40af;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.crear-bicicleta label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #0d47a1;
+}
+
+.crear-bicicleta input,
+.crear-bicicleta select {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+.crear-bicicleta button.btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.eventos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.evento-card {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.evento-card:hover {
+  transform: translateY(-5px);
+}
+
+.evento-card h2 {
+  color: #0d47a1;
+  font-size: 1.2rem;
+}
+
+.acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-editar, .btn-eliminar {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-editar {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-eliminar {
+  background-color: #dc2626;
+  color: white;
+}
+
+/* ==== FORMULARIO CREAR EVENTO ==== */
+.card.crear-evento {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 500px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card.crear-evento h2 {
+  font-size: 1.8rem;
+  text-align: center;
+  color: #0d47a1;
+  margin-bottom: 15px;
+}
+
+/* Estilo de inputs */
+#form-crear-evento input,
+#form-crear-evento textarea,
+#form-crear-evento select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f8f8f8;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+#form-crear-evento input:focus,
+#form-crear-evento textarea:focus,
+#form-crear-evento select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 5px rgba(37,99,235,0.4);
+  outline: none;
+}
+
+/* Etiquetas */
+#form-crear-evento label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+/* Textarea */
+#form-crear-evento textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Botón */
+#form-crear-evento .btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#form-crear-evento .btn:hover {
+  background: #1e3a8a;
+  transform: translateY(-2px);
+}
+/* ==== FORMULARIO ACTUALIZAR EVENTO ==== */
+.card.actualizar-evento {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 500px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card.actualizar-evento h2 {
+  font-size: 1.8rem;
+  text-align: center;
+  color: #2563eb;
+  margin-bottom: 15px;
+}
+
+#form-actualizar-evento input,
+#form-actualizar-evento textarea,
+#form-actualizar-evento select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f8f8f8;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+#form-actualizar-evento input:focus,
+#form-actualizar-evento textarea:focus,
+#form-actualizar-evento select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 5px rgba(37,99,235,0.4);
+  outline: none;
+}
+
+#form-actualizar-evento label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+#form-actualizar-evento textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+#form-actualizar-evento .btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#form-actualizar-evento .btn:hover {
+  background: #1e3a8a;
+  transform: translateY(-2px);
+}

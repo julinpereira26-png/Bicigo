@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - BiciGO</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="body_principal">
+    <nav class="sidebar">
+        <h2 class="logo">BiciGo</h2>
+        <ul>
+            <li><a href="principal.html">Inicio</a></li>
+            <li><a href="bicicletas.html" class="active">Bicicletas</a></li>
+            <li><a href="eventos.html" >Eventos</a></li>
+            <li><a href="configuracion.html">Panel de control</a></li>
+        </ul>
+    </nav>
+    <header class="header">
+
+        <h1>Eventos Disponibles</h1>
+    </header>
+<main class="main_bicicletas">
+    <div class="card crear-bicicleta">
+        <h2>Crear Bicicleta</h2>
+        <form id="form-crear-bicicleta">
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca" name="marca" required placeholder="Ej: Trek">
+
+            <label for="color">Color:</label>
+            <input type="text" id="color" name="color" required placeholder="Ej: Rojo">
+
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado" required>
+                <option value="disponible">Disponible</option>
+                <option value="no_disponible">Alquilada</option>
+            </select>
+
+            <label for="precio">Precio de Alquiler:</label>
+            <input type="number" id="precio_alquiler" name="precio" required placeholder="Ej: 5000">
+
+            <button type="submit" class="btn">Crear</button>
+        </form>
+    </div>
+</main>
+
+
+    <script>
+        const formCrearBicicleta = document.getElementById("form-crear-bicicleta");
+
+formCrearBicicleta.addEventListener("submit", function(e){
+    e.preventDefault(); 
+
+    const marca = document.getElementById("marca").value;
+    const color = document.getElementById("color").value;
+    const estado = document.getElementById("estado").value;
+    const precio_alquiler = document.getElementById("precio_alquiler").value;
+
+    const data = {
+        marca: marca,
+        color: color,
+        estado: estado,
+        precio_alquiler: precio_alquiler
+    };
+
+    fetch("http://127.0.0.1:5000/bicicleta", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(respuesta => {
+        window.location.href="bicicletas.html";
+    })
+    .catch(error => {
+        console.log(error)
+        console.error("Error:", error);
+        alert("Ocurrió un error al crear la bicicleta.");
+    });
+});
+    </script>
+</body>
+</html>

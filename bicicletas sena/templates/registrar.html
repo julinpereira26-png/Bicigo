@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - BiciGO</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body class="body_registro">
+    <!-- Formulario de registro -->
+    <section class="registro">
+        <form onsubmit="event.preventDefault(); agregar_usuario()" class="formulario">
+            <h1>Crear cuenta</h1>
+            <label>Nombre completo</label>
+            <input id="nombre" type="text" required placeholder="Digite su nombre">
+
+            <label>Correo</label>
+            <input id="correo" type="email" required placeholder="Digite su correo">
+
+            <label>Contraseña</label>
+            <input id="password" type="password" required placeholder="Digite su contraseña">
+
+            <label>Estrato</label>
+            <input id="estrato" type="number" min="1" max="6" required placeholder="Digite su estrato">
+
+            <button type="submit">Registrarse</button>
+            <p>¿Ya tienes cuenta? <a href="index.html">Inicia sesión aquí</a></p>
+        </form>
+    </section>
+
+    <!-- Descripción -->
+    <section class="descripcion">
+        <h1>Únete a BiciGO</h1>
+        <h3>Tu aventura sobre ruedas comienza aquí</h3>
+        <p>
+            Regístrate para alquilar bicicletas de manera segura, participar en
+            eventos exclusivos y disfrutar de beneficios especiales según tu
+            estrato socioeconómico. ¡Muévete por la ciudad de forma activa,
+            saludable y sostenible!
+        </p>
+    </section>
+<script src="/static/js/app.js"></script>
+<script>
+
+</script>
+</body>
+</html>

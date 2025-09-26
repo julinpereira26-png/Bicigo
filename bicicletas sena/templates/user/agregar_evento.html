@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - BiciGO</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="body_principal">
+    <nav class="sidebar">
+        <h2 class="logo">BiciGo</h2>
+        <ul>
+            <li><a href="principal.html">Inicio</a></li>
+            <li><a href="bicicletas.html">Bicicletas</a></li>
+            <li><a href="eventos.html" class="active">Eventos</a></li>
+            <li><a href="configuracion.html">Panel de control</a></li>
+        </ul>
+    </nav>
+
+    <header class="header">
+        <h1>Crear Evento</h1>
+    </header>
+
+    <main class="main_bicicletas">
+        <div class="card crear-evento">
+            <h2>Nuevo Evento</h2>
+            <form id="form-crear-evento">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" required placeholder="Ej: Paseo nocturno">
+
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" required placeholder="Detalles del evento"></textarea>
+
+                <label for="lugar">Lugar:</label>
+                <input type="text" id="lugar" name="lugar" required placeholder="Ej: Parque Central">
+
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required>
+
+                <button type="submit" class="btn">Crear</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const formCrearEvento = document.getElementById("form-crear-evento");
+
+        formCrearEvento.addEventListener("submit", function(e){
+            e.preventDefault();
+
+            const titulo = document.getElementById("titulo").value;
+            const descripcion = document.getElementById("descripcion").value;
+            const lugar = document.getElementById("lugar").value;
+            const fecha = document.getElementById("fecha").value;
+
+            const data = {
+                titulo: titulo,
+                descripcion: descripcion,
+                lugar: lugar,
+                fecha: fecha
+            };
+
+            fetch("http://127.0.0.1:5000/eventos", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(respuesta => {
+                console.log("Evento creado:", respuesta);
+                window.location.href="eventos.html"; // Redirige a lista de eventos
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Ocurrió un error al crear el evento.");
+            });
+        });
+    </script>
+</body>
+</html>

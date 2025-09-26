@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Evento - BiciGO</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="body_principal">
+    <!-- Sidebar de navegación -->
+    <nav class="sidebar">
+        <h2 class="logo">BiciGo</h2>
+        <ul>
+            <li><a href="principal.html">Inicio</a></li>
+            <li><a href="bicicletas.html">Bicicletas</a></li>
+            <li><a href="eventos.html" class="active">Eventos</a></li>
+            <li><a href="configuracion.html">Panel de control</a></li>
+        </ul>
+    </nav>
+
+    <header class="header">
+        <h1>Actualizar Evento</h1>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main_bicicletas">
+        <div class="card actualizar-evento">
+            <h2>Actualizar Evento</h2>
+            <form id="form-actualizar-evento" onsubmit="event.preventDefault(); editarEvento();">
+                
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" placeholder="Ej: Ciclopaseo por la ciudad" required>
+
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" placeholder="Describe el evento" required></textarea>
+
+                <label for="lugar">Lugar:</label>
+                <input type="text" id="lugar" name="lugar" placeholder="Ej: Parque Principal" required>
+
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required>
+
+                <button type="submit" class="btn">Actualizar</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    // Obtener el ID del evento guardado en localStorage
+    const idEvento = localStorage.getItem("id_evento");
+
+    if (!idEvento) {
+        Swal.fire({
+            icon: "error",
+            title: "Sin ID",
+            text: "No se encontró un evento para actualizar.",
+            confirmButtonText: "Volver"
+        }).then(() => {
+            window.location.href = "eventos.html";
+        });
+    }
+
+    // Traer los datos del evento para precargar el formulario
+    function obtenerEvento(id) {
+        fetch(`http://127.0.0.1:5000/eventos/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                const evento = data.mensaje;
+                if (!evento) throw new Error("Evento no encontrado");
+
+                document.getElementById("titulo").value = evento.titulo || "";
+                document.getElementById("descripcion").value = evento.descripcion || "";
+                document.getElementById("lugar").value = evento.lugar || "";
+
+                // Validar fecha antes de usar split()
+                if (evento.fecha) {
+                    // Si el backend manda fecha con hora, ej: "2025-09-18T00:00:00"
+                    document.getElementById("fecha").value = evento.fecha.split("T")[0];
+                } else {
+                    document.getElementById("fecha").value = "";
+                }
+            })
+            .catch(error => {
+                console.error("Error al obtener evento:", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "No se pudo cargar el evento.",
+                    confirmButtonText: "Volver"
+                }).then(() => {
+                    window.location.href = "eventos.html";
+                });
+            });
+    }
+
+    // Llamar de inmediato para llenar el formulario
+    obtenerEvento(idEvento);
+
+    // Actualizar evento
+    function editarEvento() {
+        const datos = {
+            titulo: document.getElementById("titulo").value,
+            descripcion: document.getElementById("descripcion").value,
+            lugar: document.getElementById("lugar").value,
+            fecha: document.getElementById("fecha").value
+        };
+
+        fetch(`http://127.0.0.1:5000/eventos/${idEvento}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(datos)
+        })
+        .then(res => res.json())
+        .then(data => {
+            Swal.fire({
+                icon: "success",
+                title: "Evento actualizado",
+                text: data.mensaje || "Los cambios se guardaron correctamente.",
+                confirmButtonText: "Volver"
+            }).then(() => {
+                window.location.href = "eventos.html";
+            });
+        })
+        .catch(error => {
+            console.error("Error al actualizar:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No se pudo actualizar el evento."
+            });
+        });
+    }
+</script>
+
+</body>
+</html>
